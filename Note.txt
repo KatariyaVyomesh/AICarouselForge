@@ -1,0 +1,166 @@
+# AI Carousel - Complete Setup & Deployment Guide
+
+This guide contains detailed instructions for setting up the AI Carousel project from scratch, including all necessary commands.
+
+## 1. Prerequisites
+
+Before you begin, ensure you have the following installed:
+- **Node.js** (v18 or higher)
+- **pnpm** (preferred package manager)
+- **Python** (3.8 or higher)
+- **FFmpeg** (Required for video processing)
+- **Git**
+
+## 2. Project Setup
+
+### Clone the Repository
+Open your terminal or command prompt and run:
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+
+# Navigate into the project directory
+cd AI_Carousel
+```
+
+### Install Dependencies
+
+This project uses both Node.js (Next.js frontend/backend) and Python (Video processing).
+
+**1. Node.js Dependencies:**
+```bash
+# Install Node packages using pnpm (recommended)
+pnpm install
+
+# OR if you don't have pnpm, you can use npm (but pnpm is preferred as per lockfile)
+npm install
+```
+
+**2. Python Dependencies:**
+```bash
+# It is recommended to use a virtual environment, but for simplicity:
+pip install -r requirements.txt
+```
+
+**3. System Dependencies (FFmpeg):**
+- **Windows:** Download from [ffmpeg.org](https://ffmpeg.org/download.html), extract, and add the `bin` folder to your System PATH environment variable.
+- **Mac:** `brew install ffmpeg`
+- **Linux:** `sudo apt install ffmpeg`
+
+## 3. Environment Configuration
+
+1. Create a `.env` or `.env.local` file in the root directory.
+2. Copy the contents below and fill in your keys:
+
+```bash
+# Create .env.local from example (if exists) or new
+cp .env.example .env.local
+```
+
+**Variables to set in `.env.local`:**
+```env
+# Database (default is SQLite for dev)
+DATABASE_URL="file:./dev.db"
+
+# AI Services
+OPENAI_API_KEY="sk-..."
+TRANSCRIPT_API_KEY="your-transcript-service-key"
+
+# App URL (Localhost for dev)
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+# Optional: AWS S3 for storage (if not using local storage)
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
+AWS_REGION="us-east-1"
+AWS_S3_BUCKET=""
+```
+
+## 4. Database Setup
+
+This project uses Prisma with SQLite (by default).
+
+```bash
+# Generate Prisma Client
+pnpm prisma generate
+
+# Push schema to database (creates dev.db)
+pnpm prisma db push
+```
+
+## 5. Running the Application
+
+### Development Mode
+To run the app locally with hot-reloading:
+
+```bash
+pnpm dev
+# The app will be available at http://localhost:3000
+```
+
+### Production Build
+To build and start the optimized production version:
+
+```bash
+# Build the application
+pnpm build
+
+# Start the server
+pnpm start
+```
+
+---
+
+## 6. AWS EC2 Deployment
+
+If you are deploying to an EC2 instance (Ubuntu), follow these specific steps.
+
+### Connect to Instance
+```bash
+ssh -i /path/to/your-key.pem ubuntu@your-ec2-ip-address
+```
+
+### Server Setup & Installation
+```bash
+# Update and install system tools
+sudo apt update
+sudo apt install python3 python3-pip ffmpeg -y
+
+# Install Node.js (v18.x)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install nodejs -y
+
+# Install pnpm
+sudo npm install -g pnpm
+
+# Clone Repo
+git clone <your-repo-url>
+cd AI_Carousel
+
+# Install Dependencies
+pnpm install
+pip3 install -r requirements.txt
+```
+
+### Configure & Run on EC2
+1. Create `.env.local` with your production keys.
+2. Build and Start:
+
+```bash
+pnpm prisma generate
+pnpm prisma db push
+pnpm build
+
+# Use PM2 to keep the app running in background
+sudo npm install -g pm2
+pm2 start npm --name "ai-carousel" -- start
+pm2 save
+pm2 startup
+```
+
+## Troubleshooting
+
+- **FFmpeg not found:** Run `ffmpeg -version` to verify installation. On Windows, ensure it's in your PATH.
+- **Python errors:** Ensure you have `python` or `python3` available in your terminal.
+- **Prisma Client error:** Run `pnpm prisma generate` again.

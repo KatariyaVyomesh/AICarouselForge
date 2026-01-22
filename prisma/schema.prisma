@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Project {
+  id              String   @id @default(cuid())
+  topic           String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  themeId         String   @default("dark")
+  themeBackground String   @default("#0f172a")
+  themeText       String   @default("#f1f5f9")
+  themeAccent     String   @default("#3b82f6")
+  themeHeading    String   @default("#ffffff")
+  themeName       String   @default("Dark")
+  brandName       String?
+  brandHandle     String?
+  brandImage      String?
+  hostImage       String?
+  guestImage      String?
+  templateId      String?
+  slides          Slide[]
+}
+
+model Slide {
+  id                     String  @id @default(cuid())
+  projectId              String
+  index                  Int
+  heading                String
+  body                   String
+  bodyShort              String?
+  bodyLong               String?
+  suggestedImage         String
+  tone                   String  @default("educational")
+  minTextVersion         String  @default("")
+  maxTextVersion         String  @default("")
+  backgroundImageUrl     String?
+  entityFocus            String  @default("none")
+  layout                 String?
+  useExtendedDescription Boolean @default(false)
+  useShortDescription    Boolean @default(true)
+  customTexts            String? // JSON string for custom text elements
+  backgroundImagePosition String? // JSON string for {x: number, y: number}
+  backgroundImageScale    Int?    @default(100)
+  backgroundImageRotation Int?    @default(0)
+  project                Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model BrandKit {
+  id          String   @id @default(cuid())
+  name        String
+  website     String?
+  handle      String?
+  imageUrl    String?
+  colors      String   @default("{}") // JSON for { background, text, accent, heading }
+  fonts       String   @default("{}") // JSON for { heading, body }
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

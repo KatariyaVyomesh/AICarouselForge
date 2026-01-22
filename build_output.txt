@@ -1,0 +1,45 @@
+﻿
+> my-v0-project@0.1.0 build E:\Codefully\Carousel\AI_Carousel\AI_Carousel
+> next build
+
+   Γû▓ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 7.9s
+   Skipping validation of types
+   Collecting page data using 7 workers ...
+   Generating static pages using 7 workers (0/17) ...
+   Generating static pages using 7 workers (4/17) 
+   Generating static pages using 7 workers (8/17) 
+   Generating static pages using 7 workers (12/17) 
+ Γ£ô Generating static pages using 7 workers (17/17) in 2.6s
+   Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ Γùï /admin
+Γö£ ╞Æ /api/adapt-content
+Γö£ ╞Æ /api/admin/brand-kits
+Γö£ ╞Æ /api/admin/brand-kits/[id]
+Γö£ ╞Æ /api/admin/projects
+Γö£ ╞Æ /api/admin/projects/[id]
+Γö£ ╞Æ /api/admin/slides/[id]
+Γö£ ╞Æ /api/brand-kits
+Γö£ ╞Æ /api/enhance-image
+Γö£ ╞Æ /api/extract-brand
+Γö£ ╞Æ /api/generate
+Γö£ ╞Æ /api/generate-image
+Γö£ ╞Æ /api/generate-variations
+Γö£ ╞Æ /api/projects
+Γö£ ╞Æ /api/projects/[id]
+Γö£ ╞Æ /api/upload-image
+Γö£ ╞Æ /editor/[id]
+Γö£ ╞Æ /uploads/[filename]
+Γöö Γùï /variations
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
